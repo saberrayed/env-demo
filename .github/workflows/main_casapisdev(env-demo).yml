@@ -71,7 +71,11 @@ jobs:
         if: steps.check_files.outputs.files_exists == 'true'
         run: composer validate --no-check-publish && composer install --prefer-dist --no-progress
 
+      - name: Run dir
+        run: dir
+
       - name: Create env
         run: cp .env.example .env
+
       - name: Create htaccess
         run: cp .htaccess.example .htaccess
