@@ -52,9 +52,6 @@ jobs:
       - name: Change directory to root
         run: cd ~
 
-      - name: Update the package manager
-        run: apt update
-
       - name: Retrieve the installer using curl
         run: curl -sS https://getcomposer.org/installer -o /tmp/composer-setup.php
 
