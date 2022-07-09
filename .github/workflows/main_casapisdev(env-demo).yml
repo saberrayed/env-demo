@@ -49,9 +49,6 @@ jobs:
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E3DB553D776B4A61AB8441A51840E7B5 }}
           package: .
 
-      - name: Change directory to root
-        run: cd ~
-
       - name: Retrieve the installer using curl
         run: curl -sS https://getcomposer.org/installer -o /tmp/composer-setup.php
 
