@@ -21,16 +21,6 @@ jobs:
         with:
           php-version: '7.4'
 
-      - name: Check if composer.json exists
-        id: check_files
-        uses: andstor/file-existence-action@v1
-        with:
-          files: 'composer.json'
-
-      - name: Run composer install if composer.json exists
-        if: steps.check_files.outputs.files_exists == 'true'
-        run: composer validate --no-check-publish && composer install --prefer-dist --no-progress
-
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
@@ -58,6 +48,37 @@ jobs:
           slot-name: 'env-demo'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E3DB553D776B4A61AB8441A51840E7B5 }}
           package: .
+
+      - name: Change directory to root
+        run: cd ~
+
+      - name: Update the package manager
+        run: apt update
+
+      - name: Retrieve the installer using curl
+        run: curl -sS https://getcomposer.org/installer -o /tmp/composer-setup.php
+
+      - name: Verify the obtained value
+        run: HASH=`curl -sS https://composer.github.io/installer.sig`
+
+      - name: Verify Installer
+        run: php -r "if (hash_file('SHA384', '/tmp/composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+      
+      - name: Install composer
+        run: php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer
+
+      - name: Change directory to project
+        run: cd /home/site/wwwroot
+        
+      - name: Check if composer.json exists
+        id: check_files
+        uses: andstor/file-existence-action@v1
+        with:
+          files: 'composer.json'
+
+      - name: Run composer install if composer.json exists
+        if: steps.check_files.outputs.files_exists == 'true'
+        run: composer validate --no-check-publish && composer install --prefer-dist --no-progress
 
       - name: Create env
         run: cp .env.example .env
