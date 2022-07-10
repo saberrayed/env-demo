@@ -21,11 +21,8 @@ jobs:
         with:
           php-version: '7.4'
 
-      - name: Try create env
-        uses: CopyFiles@2
-        with:
-          sourcePath: .env.example
-          destination:  .env
+      - name: Create env
+        run: cp .env.example .env
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
@@ -85,9 +82,6 @@ jobs:
         uses: andstor/file-existence-action@v1
         with:
           files: '.env.example'
-
-      - name: Create env
-        run: cp .env.example .env
 
       - name: Create htaccess
         run: cp .htaccess.example .htaccess 
