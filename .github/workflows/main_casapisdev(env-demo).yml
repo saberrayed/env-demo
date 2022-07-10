@@ -24,11 +24,13 @@ jobs:
       - name: Create env
         run: cp .env.example .env
 
-      - name: Check if .env exists
-        id: check_env_created
+      - name: Create htaccess
+        run: cp .htaccess.example .htaccess 
+
+      - name: Check if created files exists
         uses: andstor/file-existence-action@v1
         with:
-          files: '.env'
+          files: '.env, .htaccess'
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
@@ -79,15 +81,4 @@ jobs:
       - name: Run composer install if composer.json exists
         if: steps.check_files.outputs.files_exists == 'true'
         run: composer validate --no-check-publish && composer install --prefer-dist --no-progress
-
-      - name: Run dir
-        run: dir
-
-      - name: Check if .env.example exists
-        id: check_env
-        uses: andstor/file-existence-action@v1
-        with:
-          files: '.env.example'
-
-      - name: Create htaccess
-        run: cp .htaccess.example .htaccess 
+   
