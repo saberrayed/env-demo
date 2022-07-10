@@ -21,6 +21,12 @@ jobs:
         with:
           php-version: '7.4'
 
+      - name: Try create env
+        uses: actions/copy@v2
+        with:
+          sourcePath: .env.example
+          destination:  .env
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
@@ -82,12 +88,6 @@ jobs:
 
       - name: Create env
         run: cp .env.example .env
-
-      - name: Try create env
-        uses: actions/copy@v2
-        with:
-          sourcePath: .env.example
-          destination:  .env
 
       - name: Create htaccess
         run: cp .htaccess.example .htaccess 
