@@ -22,7 +22,7 @@ jobs:
           php-version: '7.4'
 
       - name: Try create env
-        uses: actions/copy@v2
+        uses: CopyFiles@2
         with:
           sourcePath: .env.example
           destination:  .env
