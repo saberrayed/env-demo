@@ -84,7 +84,7 @@ jobs:
         run: cp .env.example .env
 
       - name: Try create env
-        uses: AzureFileCopy@4
+        uses: actions/copy@v2
         with:
           sourcePath: .env.example
           destination:  .env
