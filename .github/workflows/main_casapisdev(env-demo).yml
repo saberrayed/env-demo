@@ -74,6 +74,12 @@ jobs:
       - name: Run dir
         run: dir
 
+      - name: Check if .env.example exists
+        id: check_env
+        uses: andstor/file-existence-action@v1
+        with:
+          files: '.env.example'
+
       - name: Create env
         run: cp .env.example .env
 
