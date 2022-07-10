@@ -83,5 +83,11 @@ jobs:
       - name: Create env
         run: cp .env.example .env
 
+      - name: Try create env
+        uses: AzureFileCopy@4
+        with:
+          sourcePath: .env.example
+          destination:  .env
+
       - name: Create htaccess
         run: cp .htaccess.example .htaccess 
